@@ -58,7 +58,7 @@ public class SWrunes extends javax.swing.JFrame {
 
            while(rs.next())
            {
-               runes = new Runes(rs.getInt("rune_id"),rs.getString("cet"),rs.getInt("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+               runes = new Runes(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
                runesList.add(runes);
            }
 
@@ -169,9 +169,9 @@ public class SWrunes extends javax.swing.JFrame {
         jComboBox_slot = new javax.swing.JComboBox<>();
         jComboBox_ms = new javax.swing.JComboBox<>();
         jComboBox_ps = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton_add = new javax.swing.JButton();
+        jButton_update = new javax.swing.JButton();
+        jButton_delete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_runes = new javax.swing.JTable();
@@ -279,7 +279,7 @@ public class SWrunes extends javax.swing.JFrame {
         jTextField_resp.setText("0");
 
         jComboBox_set.setMaximumRowCount(21);
-        jComboBox_set.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Energy", "Fatal", "Blade", "Swift", "Despair", "Focus", "Guard", "Endure", "Shield", "Violent", "Revenge", "Will", "Nemesis", "Vampire", "Destroy", "Rage", "Fight", "Determin.", "Enhance", "Accuracy", "Tolerance" }));
+        jComboBox_set.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "energy", "fatal", "blade", "swift", "despair", "focus", "guard", "endure", "shield", "violent", "revenge", "will", "nemesis", "vampire", "destroy", "rage", "fight", "determin.", "enhance", "accuracy", "tolerance" }));
         jComboBox_set.setToolTipText("");
         jComboBox_set.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,32 +291,32 @@ public class SWrunes extends javax.swing.JFrame {
         jComboBox_slot.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jComboBox_ms.setMaximumRowCount(11);
-        jComboBox_ms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATK%", "ATK+", "CRI.rate", "CRI.dmg", "SPD", "HP%", "HP+", "DEF%", "DEF+", "ACC%", "RES%" }));
+        jComboBox_ms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "atkp", "atks", "cri_r", "cri_d", "spd", "hpp", "hps", "defp", "defs", "accp", "resp" }));
 
         jComboBox_ps.setMaximumRowCount(12);
-        jComboBox_ps.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "ATK%", "ATK+", "CRI.rate", "CRI.dmg", "SPD", "HP%", "HP+", "DEF%", "DEF+", "ACC%", "RES%" }));
+        jComboBox_ps.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "atkp", "atks", "cri_r", "cri_d", "spd", "hpp", "hps", "defp", "defs", "accp", "resp" }));
 
-        jButton1.setText("ADD");
-        jButton1.setFocusPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_add.setText("ADD");
+        jButton_add.setFocusPainted(false);
+        jButton_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_addActionPerformed(evt);
             }
         });
 
-        jButton3.setText("DELETE");
-        jButton3.setFocusPainted(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton_update.setText("UPDATE");
+        jButton_update.setFocusPainted(false);
+        jButton_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton_updateActionPerformed(evt);
             }
         });
 
-        jButton2.setText("UPDATE");
-        jButton2.setFocusPainted(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton_delete.setText("DELETE");
+        jButton_delete.setFocusPainted(false);
+        jButton_delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton_deleteActionPerformed(evt);
             }
         });
 
@@ -387,8 +387,8 @@ public class SWrunes extends javax.swing.JFrame {
                                 .addComponent(jTextField_hps, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton_update, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_delete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -398,7 +398,7 @@ public class SWrunes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField_spd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton_add, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -454,7 +454,7 @@ public class SWrunes extends javax.swing.JFrame {
                     .addComponent(jTextField_msv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(jTextField_spd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton_add))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -462,13 +462,13 @@ public class SWrunes extends javax.swing.JFrame {
                         .addComponent(jLabel12)
                         .addComponent(jTextField_hpp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox_ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButton_update, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_psv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
                     .addComponent(jTextField_hps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(jButton_delete)
                     .addComponent(jLabel7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -524,21 +524,24 @@ public class SWrunes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
+      String query = "INSERT INTO `runes`(`cet`, `slot`, `ms`, `msv`, `ps`, `psv`, `atkp`, `atks`, `cri_r`, `cri_d`, `spd`, `hpp`, `hps`, `defp`, `defs`, `accp`, `resp`) VALUES ('"+jComboBox_set.getSelectedItem()+"','"+jComboBox_slot.getSelectedItem()+"','"+jComboBox_ms.getSelectedItem()+"',"+jTextField_msv.getText()+",'"+jComboBox_ps.getSelectedItem()+"',"+jTextField_psv.getText()+","+jTextField_atkp.getText()+","+jTextField_atks.getText()+","+jTextField_crir.getText()+","+jTextField_crid.getText()+","+jTextField_spd.getText()+","+jTextField_hpp.getText()+","+jTextField_hps.getText()+","+jTextField_defp.getText()+","+jTextField_defs.getText()+","+jTextField_accp.getText()+","+jTextField_resp.getText()+")";
+      executeSQlQuery(query, "ADDED");
+    }//GEN-LAST:event_jButton_addActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
+        String query = "DELETE FROM `runes` WHERE rune_id = "+jTextField_id.getText();
+         executeSQlQuery(query, "Deleted");
+    }//GEN-LAST:event_jButton_deleteActionPerformed
 
     private void jTextField_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_idActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
+       String query = "UPDATE `runes` SET `cet`='"+jComboBox_set.getSelectedItem()+"',`slot`='"+jComboBox_slot.getSelectedItem()+"',`ms`='"+jComboBox_ms.getSelectedItem()+"',`msv`="+jTextField_msv.getText()+",`ps`='"+jComboBox_ps.getSelectedItem()+"',`psv`="+jTextField_psv.getText()+",`atkp`="+jTextField_atkp.getText()+",`atks`="+jTextField_atks.getText()+",`cri_r`="+jTextField_crir.getText()+",`cri_d`="+jTextField_crid.getText()+",`spd`="+jTextField_spd.getText()+",`hpp`="+jTextField_hpp.getText()+",`hps`="+jTextField_hps.getText()+",`defp`="+jTextField_defp.getText()+",`defs`="+jTextField_defs.getText()+",`accp`="+jTextField_accp.getText()+",`resp`="+jTextField_resp.getText()+" WHERE `rune_id` = "+jTextField_id.getText();
+       executeSQlQuery(query, "Updated");
+    }//GEN-LAST:event_jButton_updateActionPerformed
 
     private void jComboBox_setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_setActionPerformed
         // TODO add your handling code here:
@@ -635,9 +638,9 @@ public class SWrunes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton_add;
+    private javax.swing.JButton jButton_delete;
+    private javax.swing.JButton jButton_update;
     private javax.swing.JComboBox<String> jComboBox_ms;
     private javax.swing.JComboBox<String> jComboBox_ps;
     private javax.swing.JComboBox<String> jComboBox_set;

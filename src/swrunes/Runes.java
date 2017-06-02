@@ -5,7 +5,7 @@ public class Runes {
  
     private int id;
     private String set;
-    private int slot;
+    private String slot;
     private String ms;
     private int msv;
     private String ps;
@@ -22,7 +22,7 @@ public class Runes {
     private int accp;
     private int resp; 
   
-    public Runes(int Id, String Set, int Slot, String Ms, int Msv, String Ps, int Psv, int Atkp, int Atks, int CriR, int CriD, int Spd, int Hpp, int Hps, int Defp, int Defs, int Accp, int Resp) 
+    public Runes(int Id, String Set, String Slot, String Ms, int Msv, String Ps, int Psv, int Atkp, int Atks, int CriR, int CriD, int Spd, int Hpp, int Hps, int Defp, int Defs, int Accp, int Resp) 
  { 
          this.id = Id;
          this.set = Set;
@@ -64,7 +64,7 @@ public class Runes {
      return set;
  }
  
- public int getSlot()
+ public String getSlot()
  {
      return slot;
  }
