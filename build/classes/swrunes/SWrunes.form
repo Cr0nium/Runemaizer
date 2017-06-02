@@ -588,24 +588,24 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="18" rowCount="0">
-                <Column editable="true" title="id" type="java.lang.Object"/>
-                <Column editable="true" title="set" type="java.lang.Object"/>
-                <Column editable="true" title="slot" type="java.lang.Object"/>
-                <Column editable="true" title="ms" type="java.lang.Object"/>
-                <Column editable="true" title="msv" type="java.lang.Object"/>
-                <Column editable="true" title="ps" type="java.lang.Object"/>
-                <Column editable="true" title="psv" type="java.lang.Object"/>
-                <Column editable="true" title="atk%" type="java.lang.Object"/>
-                <Column editable="true" title="atk+" type="java.lang.Object"/>
-                <Column editable="true" title="cri.r" type="java.lang.Object"/>
-                <Column editable="true" title="cri.d" type="java.lang.Object"/>
-                <Column editable="true" title="spd" type="java.lang.Object"/>
-                <Column editable="true" title="hp%" type="java.lang.Object"/>
-                <Column editable="true" title="hp+" type="java.lang.Object"/>
-                <Column editable="true" title="def%" type="java.lang.Object"/>
-                <Column editable="true" title="def+" type="java.lang.Object"/>
-                <Column editable="true" title="acc%" type="java.lang.Object"/>
-                <Column editable="true" title="res%" type="java.lang.Object"/>
+                <Column editable="true" title="Id" type="java.lang.Object"/>
+                <Column editable="true" title="Set" type="java.lang.Object"/>
+                <Column editable="true" title="Slot" type="java.lang.Object"/>
+                <Column editable="true" title="Ms" type="java.lang.Object"/>
+                <Column editable="true" title="Msv" type="java.lang.Object"/>
+                <Column editable="true" title="Ps" type="java.lang.Object"/>
+                <Column editable="true" title="Psv" type="java.lang.Object"/>
+                <Column editable="true" title="Atkp" type="java.lang.Object"/>
+                <Column editable="true" title="Atks" type="java.lang.Object"/>
+                <Column editable="true" title="CriR" type="java.lang.Object"/>
+                <Column editable="true" title="CriD" type="java.lang.Object"/>
+                <Column editable="true" title="Spd" type="java.lang.Object"/>
+                <Column editable="true" title="Hpp" type="java.lang.Object"/>
+                <Column editable="true" title="Hps" type="java.lang.Object"/>
+                <Column editable="true" title="Defp" type="java.lang.Object"/>
+                <Column editable="true" title="Defs" type="java.lang.Object"/>
+                <Column editable="true" title="Accp" type="java.lang.Object"/>
+                <Column editable="true" title="Resp" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

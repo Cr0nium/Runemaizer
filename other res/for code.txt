@@ -1,0 +1,1 @@
+public Runes(int Id; String Set, int Slot, String Ms, int Msv, String Ps, int Psv, int Atk%, int Atk+, int Cri.r, int Cri.d, int Spd, int Hp%, int Hp+, int Def%, int Def+, int Acc%, int Res%);

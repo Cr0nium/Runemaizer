@@ -17,7 +17,7 @@ public class SWrunes extends javax.swing.JFrame {
     public SWrunes() {
         initComponents();
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -385,7 +385,7 @@ public class SWrunes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "set", "slot", "ms", "msv", "ps", "psv", "atk%", "atk+", "cri.r", "cri.d", "spd", "hp%", "hp+", "def%", "def+", "acc%", "res%"
+                "Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
