@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -69,6 +70,35 @@ public class SWrunes extends javax.swing.JFrame {
        return runesList;
    }
      
+     
+      public ArrayList<Runes> ListRunes()
+    {
+        ArrayList<Runes> runesList = new ArrayList<Runes>();
+        
+        Statement st;
+        ResultSet rs;
+        
+        try{
+            Connection con = getConnection();
+            st = con.createStatement();
+            String searchQuery = "SELECT * FROM runes WHERE "+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+"";
+            rs = st.executeQuery(searchQuery);
+            
+            Runes runes;
+            
+            while(rs.next())
+            {
+                runes = new Runes(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+                runesList.add(runes);
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        
+        return runesList;
+    }
+     
      public void Show_Runes_In_JTable()
    {
        ArrayList<Runes> list = getRunesList();
@@ -100,6 +130,42 @@ public class SWrunes extends javax.swing.JFrame {
        }
     }
      
+     public void findRunes()
+   {
+       ArrayList<Runes> list = ListRunes();
+       DefaultTableModel model = (DefaultTableModel)jTable_srunes.getModel();
+       model.setRowCount(0);
+       model.setColumnIdentifiers(new Object[]{"Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"});
+       Object[] row = new Object[18];
+       for(int i = 0; i < list.size(); i++)
+       {
+           row[0] = list.get(i).getId();
+           row[1] = list.get(i).getSet();
+           row[2] = list.get(i).getSlot();
+           row[3] = list.get(i).getMs();
+           row[4] = list.get(i).getMsv();
+           row[5] = list.get(i).getPs();
+           row[6] = list.get(i).getPsv();
+           row[7] = list.get(i).getAtkp();
+           row[8] = list.get(i).getAtks();
+           row[9] = list.get(i).getCriR();
+           row[10] = list.get(i).getCriD();
+           row[11] = list.get(i).getSpd();
+           row[12] = list.get(i).getHpp();
+           row[13] = list.get(i).getHps();
+           row[14] = list.get(i).getDefp();
+           row[15] = list.get(i).getDefs();
+           row[16] = list.get(i).getAccp();
+           row[17] = list.get(i).getResp();
+           model.addRow(row);
+       }
+       jTable_srunes.setModel(model);
+    }
+     
+    
+     
+     
+     
      
      public void executeSQlQuery(String query, String message)
    {
@@ -123,6 +189,8 @@ public class SWrunes extends javax.swing.JFrame {
        }
    }
      
+     
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,6 +200,10 @@ public class SWrunes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame_search = new javax.swing.JFrame();
+        jPanel_search = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable_srunes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -177,8 +249,49 @@ public class SWrunes extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
+        jComboBox_sset = new javax.swing.JComboBox<>();
+        jComboBox_sslot = new javax.swing.JComboBox<>();
+        jComboBox_ssub1 = new javax.swing.JComboBox<>();
+        jComboBox_ssub2 = new javax.swing.JComboBox<>();
+        jComboBox_br1 = new javax.swing.JComboBox<>();
+        jComboBox_br2 = new javax.swing.JComboBox<>();
+        jTextField_ssub1 = new javax.swing.JTextField();
+        jTextField_ssub2 = new javax.swing.JTextField();
+        jButton_search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_runes = new javax.swing.JTable();
+
+        jTable_srunes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable_srunes);
+
+        javax.swing.GroupLayout jPanel_searchLayout = new javax.swing.GroupLayout(jPanel_search);
+        jPanel_search.setLayout(jPanel_searchLayout);
+        jPanel_searchLayout.setHorizontalGroup(
+            jPanel_searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+        );
+        jPanel_searchLayout.setVerticalGroup(
+            jPanel_searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame_searchLayout = new javax.swing.GroupLayout(jFrame_search.getContentPane());
+        jFrame_search.getContentPane().setLayout(jFrame_searchLayout);
+        jFrame_searchLayout.setHorizontalGroup(
+            jFrame_searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jFrame_searchLayout.setVerticalGroup(
+            jFrame_searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(800, 600));
@@ -477,13 +590,43 @@ public class SWrunes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("SET");
 
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("SLOT");
 
-        jLabel21.setText("SUB STAT 1");
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("SUB Stat 1");
 
-        jLabel22.setText("SUB STAT 2");
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("SUB Stat 2");
+
+        jComboBox_sset.setMaximumRowCount(22);
+        jComboBox_sset.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "any", "energy", "fatal", "blade", "swift", "despair", "focus", "guard", "endure", "shield", "violent", "revenge", "will", "nemesis", "vampire", "destroy", "rage", "fight", "determin.", "enhance", "accuracy", "tolerance" }));
+
+        jComboBox_sslot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "any", "1", "2", "3", "4", "5", "6" }));
+
+        jComboBox_ssub1.setMaximumRowCount(13);
+        jComboBox_ssub1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "atkp", "atks", "cri_r", "cri_d", "spd", "hpp", "hps", "defp", "defs", "accp", "resp" }));
+
+        jComboBox_ssub2.setMaximumRowCount(13);
+        jComboBox_ssub2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "atkp", "atks", "cri_r", "cri_d", "spd", "hpp", "hps", "defp", "defs", "accp", "resp" }));
+        jComboBox_ssub2.setSelectedIndex(-1);
+        jComboBox_ssub2.setToolTipText("");
+
+        jComboBox_br1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ">", "=" }));
+
+        jComboBox_br2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ">", "=" }));
+        jComboBox_br2.setSelectedIndex(-1);
+
+        jButton_search.setText("SEARCH");
+        jButton_search.setFocusPainted(false);
+        jButton_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_searchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -492,23 +635,61 @@ public class SWrunes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jComboBox_sset, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_sslot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jComboBox_ssub2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox_br2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField_ssub2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jComboBox_ssub1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox_br1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField_ssub1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_search, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jComboBox_sset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jComboBox_sslot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel21)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jComboBox_ssub1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_br1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_ssub1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(jComboBox_ssub2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_br2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_ssub2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton_search, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -626,6 +807,14 @@ public class SWrunes extends javax.swing.JFrame {
         jTextField_resp.setText(model.getValueAt(i,17).toString());
     }//GEN-LAST:event_jTable_runesMouseClicked
 
+    private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
+        
+        findRunes();
+        jFrame_search.setDefaultCloseOperation(jFrame_search.DISPOSE_ON_CLOSE);
+        jFrame_search.setSize(800,600);
+        jFrame_search.setVisible(true);
+    }//GEN-LAST:event_jButton_searchActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -668,11 +857,19 @@ public class SWrunes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_add;
     private javax.swing.JButton jButton_delete;
+    private javax.swing.JButton jButton_search;
     private javax.swing.JButton jButton_update;
+    private javax.swing.JComboBox<String> jComboBox_br1;
+    private javax.swing.JComboBox<String> jComboBox_br2;
     private javax.swing.JComboBox<String> jComboBox_ms;
     private javax.swing.JComboBox<String> jComboBox_ps;
     private javax.swing.JComboBox<String> jComboBox_set;
     private javax.swing.JComboBox<String> jComboBox_slot;
+    private javax.swing.JComboBox<String> jComboBox_sset;
+    private javax.swing.JComboBox<String> jComboBox_sslot;
+    private javax.swing.JComboBox<String> jComboBox_ssub1;
+    private javax.swing.JComboBox<String> jComboBox_ssub2;
+    private javax.swing.JFrame jFrame_search;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -697,8 +894,11 @@ public class SWrunes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel_search;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable_runes;
+    private javax.swing.JTable jTable_srunes;
     private javax.swing.JTextField jTextField_accp;
     private javax.swing.JTextField jTextField_atkp;
     private javax.swing.JTextField jTextField_atks;
@@ -713,5 +913,7 @@ public class SWrunes extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_psv;
     private javax.swing.JTextField jTextField_resp;
     private javax.swing.JTextField jTextField_spd;
+    private javax.swing.JTextField jTextField_ssub1;
+    private javax.swing.JTextField jTextField_ssub2;
     // End of variables declaration//GEN-END:variables
 }
