@@ -14,18 +14,20 @@ import javax.swing.JTextField;
 import javax.swing.UIManager.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.*;
 /**
  *
  * @author Cr0n
  */
-public class SWrunes extends javax.swing.JFrame {
-
-    /**
-     * Creates new form runes
-     */
+public class SWrunes extends JFrame {
+    
+private static String searchq;
+    
     public SWrunes() {
+        super("RUNEMAIZER");
         initComponents();
         Show_Runes_In_JTable();
+        setLocation(300, 200);
     }
       
      public Connection getConnection()
@@ -78,12 +80,28 @@ public class SWrunes extends javax.swing.JFrame {
         Statement st;
         ResultSet rs;
         
+        
         try{
             Connection con = getConnection();
             st = con.createStatement();
-            String searchQuery = "SELECT * FROM runes WHERE "+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+"";
-            rs = st.executeQuery(searchQuery);
+            // create diferent sql request based on the request fields
+            if ((jComboBox_sset.getSelectedIndex() == 0) && (jComboBox_sslot.getSelectedIndex() != 0))
+            {
+            searchq = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (slot = '"+jComboBox_sslot.getSelectedItem()+"')";
+            }
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() == 0) ) {
+            searchq = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (cet = '"+jComboBox_sset.getSelectedItem()+"')";
+            }
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() != 0) ) {
+            searchq = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (cet = '"+jComboBox_sset.getSelectedItem()+"') and (slot = '"+jComboBox_sslot.getSelectedItem()+"') ";
+            }
+            else {
+            searchq = "SELECT * FROM runes WHERE "+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+"";
+            }
             
+            
+            String searchQuery = searchq;
+            rs = st.executeQuery(searchQuery);
             Runes runes;
             
             while(rs.next())
@@ -528,7 +546,7 @@ public class SWrunes extends javax.swing.JFrame {
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField_resp, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,9 +653,9 @@ public class SWrunes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                     .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -714,11 +732,10 @@ public class SWrunes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -810,7 +827,9 @@ public class SWrunes extends javax.swing.JFrame {
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         
         findRunes();
+        jFrame_search.setTitle("SEARCHING RESULT");
         jFrame_search.setDefaultCloseOperation(jFrame_search.DISPOSE_ON_CLOSE);
+        jFrame_search.setLocation(800, 450);
         jFrame_search.setSize(800,600);
         jFrame_search.setVisible(true);
     }//GEN-LAST:event_jButton_searchActionPerformed
