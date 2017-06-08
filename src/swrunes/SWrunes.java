@@ -15,6 +15,7 @@ import javax.swing.UIManager.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 /**
  *
  * @author Cr0n
@@ -24,12 +25,22 @@ public class SWrunes extends JFrame {
 private static String searchq;
     
     public SWrunes() {
+        // frame and panels adjustment 
         super("RUNEMAIZER");
         initComponents();
         Show_Runes_In_JTable();
         setLocation(300, 200);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder("ADD RUNES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        jPanel1.setBorder(title);
+        TitledBorder titles;
+        titles = BorderFactory.createTitledBorder("SEARCH RUNES");
+        titles.setTitleJustification(TitledBorder.CENTER);
+        jPanel2.setBorder(titles);
+   
     }
-      
+     // method for connecting  
      public Connection getConnection()
    {
        Connection con;
@@ -43,7 +54,7 @@ private static String searchq;
            return null;
        }
    }
-    
+    // Getting a list of runes from the database sql for add runes + sql request
      public ArrayList<Runes> getRunesList()
    {
        ArrayList<Runes> runesList = new ArrayList<Runes>();
@@ -72,7 +83,7 @@ private static String searchq;
        return runesList;
    }
      
-     
+     // Getting a list of runes from the database sql for search runes
       public ArrayList<Runes> ListRunes()
     {
         ArrayList<Runes> runesList = new ArrayList<Runes>();
@@ -116,7 +127,7 @@ private static String searchq;
         
         return runesList;
     }
-     
+     // Show the received list for add runes
      public void Show_Runes_In_JTable()
    {
        ArrayList<Runes> list = getRunesList();
@@ -147,7 +158,7 @@ private static String searchq;
            model.addRow(row);
        }
     }
-     
+     // Show the received list for search runes
      public void findRunes()
    {
        ArrayList<Runes> list = ListRunes();
@@ -180,11 +191,8 @@ private static String searchq;
        jTable_srunes.setModel(model);
     }
      
-    
-     
-     
-     
-     
+                 
+     // sql request organization
      public void executeSQlQuery(String query, String message)
    {
        com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) getConnection();
@@ -749,12 +757,12 @@ private static String searchq;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+// sql request for addition
     private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
       String query = "INSERT INTO `runes`(`cet`, `slot`, `ms`, `msv`, `ps`, `psv`, `atkp`, `atks`, `cri_r`, `cri_d`, `spd`, `hpp`, `hps`, `defp`, `defs`, `accp`, `resp`) VALUES ('"+jComboBox_set.getSelectedItem()+"','"+jComboBox_slot.getSelectedItem()+"','"+jComboBox_ms.getSelectedItem()+"',"+jTextField_msv.getText()+",'"+jComboBox_ps.getSelectedItem()+"',"+jTextField_psv.getText()+","+jTextField_atkp.getText()+","+jTextField_atks.getText()+","+jTextField_crir.getText()+","+jTextField_crid.getText()+","+jTextField_spd.getText()+","+jTextField_hpp.getText()+","+jTextField_hps.getText()+","+jTextField_defp.getText()+","+jTextField_defs.getText()+","+jTextField_accp.getText()+","+jTextField_resp.getText()+")";
       executeSQlQuery(query, "ADDED");
     }//GEN-LAST:event_jButton_addActionPerformed
-
+// sqlrequest for delete
     private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
         String query = "DELETE FROM `runes` WHERE rune_id = "+jTextField_id.getText();
          executeSQlQuery(query, "Deleted");
@@ -763,7 +771,7 @@ private static String searchq;
     private void jTextField_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_idActionPerformed
-
+// sql request for update
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
        String query = "UPDATE `runes` SET `cet`='"+jComboBox_set.getSelectedItem()+"',`slot`='"+jComboBox_slot.getSelectedItem()+"',`ms`='"+jComboBox_ms.getSelectedItem()+"',`msv`="+jTextField_msv.getText()+",`ps`='"+jComboBox_ps.getSelectedItem()+"',`psv`="+jTextField_psv.getText()+",`atkp`="+jTextField_atkp.getText()+",`atks`="+jTextField_atks.getText()+",`cri_r`="+jTextField_crir.getText()+",`cri_d`="+jTextField_crid.getText()+",`spd`="+jTextField_spd.getText()+",`hpp`="+jTextField_hpp.getText()+",`hps`="+jTextField_hps.getText()+",`defp`="+jTextField_defp.getText()+",`defs`="+jTextField_defs.getText()+",`accp`="+jTextField_accp.getText()+",`resp`="+jTextField_resp.getText()+" WHERE `rune_id` = "+jTextField_id.getText();
        executeSQlQuery(query, "Updated");
@@ -780,7 +788,7 @@ private static String searchq;
     private void jTextField_defpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_defpActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_defpActionPerformed
-
+//Filling fields when you click on a jtable_runes
     private void jTable_runesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_runesMouseClicked
         int i = jTable_runes.getSelectedRow();
 
@@ -823,7 +831,7 @@ private static String searchq;
         
         jTextField_resp.setText(model.getValueAt(i,17).toString());
     }//GEN-LAST:event_jTable_runesMouseClicked
-
+// sql request for searche
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         
         findRunes();
