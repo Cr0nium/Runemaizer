@@ -55,9 +55,9 @@ private static String searchq;
        }
    }
     // Getting a list of runes from the database sql for add runes + sql request
-     public ArrayList<Runes> getRunesList()
+     public ArrayList<Rune> getRunesList()
    {
-       ArrayList<Runes> runesList = new ArrayList<Runes>();
+       ArrayList<Rune> runesList = new ArrayList<Rune>();
        com.mysql.jdbc.Connection connection = (com.mysql.jdbc.Connection) getConnection();
        
        String query = "SELECT * FROM  `runes` ";
@@ -68,11 +68,11 @@ private static String searchq;
            st = connection.createStatement();
            rs = st.executeQuery(query);
 
-           Runes runes;
+           Rune runes;
 
            while(rs.next())
            {
-               runes = new Runes(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+               runes = new Rune(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
                runesList.add(runes);
            }
 
@@ -84,9 +84,9 @@ private static String searchq;
    }
      
      // Getting a list of runes from the database sql for search runes
-      public ArrayList<Runes> ListRunes()
+      public ArrayList<Rune> ListRunes()
     {
-        ArrayList<Runes> runesList = new ArrayList<Runes>();
+        ArrayList<Rune> runesList = new ArrayList<Rune>();
         
         Statement st;
         ResultSet rs;
@@ -113,11 +113,11 @@ private static String searchq;
             
             String searchQuery = searchq;
             rs = st.executeQuery(searchQuery);
-            Runes runes;
+            Rune runes;
             
             while(rs.next())
             {
-                runes = new Runes(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+                runes = new Rune(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
                 runesList.add(runes);
             }
             
@@ -130,7 +130,7 @@ private static String searchq;
      // Show the received list for add runes
      public void Show_Runes_In_JTable()
    {
-       ArrayList<Runes> list = getRunesList();
+       ArrayList<Rune> list = getRunesList();
        DefaultTableModel model = (DefaultTableModel)jTable_runes.getModel();
        Object[] row = new Object[18];
        for(int i = 0; i < list.size(); i++)
@@ -138,21 +138,21 @@ private static String searchq;
            row[0] = list.get(i).getId();
            row[1] = list.get(i).getSet();
            row[2] = list.get(i).getSlot();
-           row[3] = list.get(i).getMs();
-           row[4] = list.get(i).getMsv();
-           row[5] = list.get(i).getPs();
-           row[6] = list.get(i).getPsv();
-           row[7] = list.get(i).getAtkp();
-           row[8] = list.get(i).getAtks();
-           row[9] = list.get(i).getCriR();
-           row[10] = list.get(i).getCriD();
-           row[11] = list.get(i).getSpd();
-           row[12] = list.get(i).getHpp();
-           row[13] = list.get(i).getHps();
-           row[14] = list.get(i).getDefp();
-           row[15] = list.get(i).getDefs();
-           row[16] = list.get(i).getAccp();
-           row[17] = list.get(i).getResp();
+           row[3] = list.get(i).getMainStat();
+           row[4] = list.get(i).getMainStatValue();
+           row[5] = list.get(i).getPrefixStat();
+           row[6] = list.get(i).getPrefixStatValue();
+           row[7] = list.get(i).getAttackInPercentages();
+           row[8] = list.get(i).getAttackInNumbers();
+           row[9] = list.get(i).getCriticalRate();
+           row[10] = list.get(i).getCriticalDamage();
+           row[11] = list.get(i).getSpeed();
+           row[12] = list.get(i).getHitPointsInPercentages();
+           row[13] = list.get(i).getHitPointsInNambers();
+           row[14] = list.get(i).getDefenseInPercentages();
+           row[15] = list.get(i).getDefenseInNumbers();
+           row[16] = list.get(i).getAccuracy();
+           row[17] = list.get(i).getResistance();
            
            model.addRow(row);
        }
@@ -160,7 +160,7 @@ private static String searchq;
      // Show the received list for search runes
      public void findRunes()
    {
-       ArrayList<Runes> list = ListRunes();
+       ArrayList<Rune> list = ListRunes();
        DefaultTableModel model = (DefaultTableModel)jTable_srunes.getModel();
        model.setRowCount(0);
        model.setColumnIdentifiers(new Object[]{"Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"});
@@ -170,21 +170,21 @@ private static String searchq;
            row[0] = list.get(i).getId();
            row[1] = list.get(i).getSet();
            row[2] = list.get(i).getSlot();
-           row[3] = list.get(i).getMs();
-           row[4] = list.get(i).getMsv();
-           row[5] = list.get(i).getPs();
-           row[6] = list.get(i).getPsv();
-           row[7] = list.get(i).getAtkp();
-           row[8] = list.get(i).getAtks();
-           row[9] = list.get(i).getCriR();
-           row[10] = list.get(i).getCriD();
-           row[11] = list.get(i).getSpd();
-           row[12] = list.get(i).getHpp();
-           row[13] = list.get(i).getHps();
-           row[14] = list.get(i).getDefp();
-           row[15] = list.get(i).getDefs();
-           row[16] = list.get(i).getAccp();
-           row[17] = list.get(i).getResp();
+           row[3] = list.get(i).getMainStat();
+           row[4] = list.get(i).getMainStatValue();
+           row[5] = list.get(i).getPrefixStat();
+           row[6] = list.get(i).getPrefixStatValue();
+           row[7] = list.get(i).getAttackInPercentages();
+           row[8] = list.get(i).getAttackInNumbers();
+           row[9] = list.get(i).getCriticalRate();
+           row[10] = list.get(i).getCriticalDamage();
+           row[11] = list.get(i).getSpeed();
+           row[12] = list.get(i).getHitPointsInPercentages();
+           row[13] = list.get(i).getHitPointsInNambers();
+           row[14] = list.get(i).getDefenseInPercentages();
+           row[15] = list.get(i).getDefenseInNumbers();
+           row[16] = list.get(i).getAccuracy();
+           row[17] = list.get(i).getResistance();
            model.addRow(row);
        }
        jTable_srunes.setModel(model);
