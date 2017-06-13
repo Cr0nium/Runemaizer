@@ -1,5 +1,7 @@
 package swrunes;
 
+import java.awt.event.ActionEvent;
+
 
 public class Runes {
  
@@ -133,6 +135,14 @@ public class Runes {
  {
      return resp;
  }
+
+    void jComboBox_setActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    void jTextField_psvActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+    }
  
  
 }

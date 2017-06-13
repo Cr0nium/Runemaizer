@@ -154,7 +154,6 @@ private static String searchq;
            row[16] = list.get(i).getAccp();
            row[17] = list.get(i).getResp();
            
-           
            model.addRow(row);
        }
     }
@@ -346,20 +345,10 @@ private static String searchq;
         jLabel7.setText("PS Value");
 
         jTextField_id.setText("  ");
-        jTextField_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_idActionPerformed(evt);
-            }
-        });
 
         jTextField_msv.setText("0");
 
         jTextField_psv.setText("0");
-        jTextField_psv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_psvActionPerformed(evt);
-            }
-        });
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("ATK%");
@@ -409,11 +398,6 @@ private static String searchq;
         jLabel18.setText("RES%");
 
         jTextField_defp.setText("0");
-        jTextField_defp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_defpActionPerformed(evt);
-            }
-        });
 
         jTextField_defs.setText("0");
 
@@ -424,11 +408,6 @@ private static String searchq;
         jComboBox_set.setMaximumRowCount(21);
         jComboBox_set.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "energy", "fatal", "blade", "swift", "despair", "focus", "guard", "endure", "shield", "violent", "revenge", "will", "nemesis", "vampire", "destroy", "rage", "fight", "determin.", "enhance", "accuracy", "tolerance" }));
         jComboBox_set.setToolTipText("");
-        jComboBox_set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_setActionPerformed(evt);
-            }
-        });
 
         jComboBox_slot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
         jComboBox_slot.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -767,27 +746,11 @@ private static String searchq;
         String query = "DELETE FROM `runes` WHERE rune_id = "+jTextField_id.getText();
          executeSQlQuery(query, "Deleted");
     }//GEN-LAST:event_jButton_deleteActionPerformed
-
-    private void jTextField_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_idActionPerformed
 // sql request for update
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
        String query = "UPDATE `runes` SET `cet`='"+jComboBox_set.getSelectedItem()+"',`slot`='"+jComboBox_slot.getSelectedItem()+"',`ms`='"+jComboBox_ms.getSelectedItem()+"',`msv`="+jTextField_msv.getText()+",`ps`='"+jComboBox_ps.getSelectedItem()+"',`psv`="+jTextField_psv.getText()+",`atkp`="+jTextField_atkp.getText()+",`atks`="+jTextField_atks.getText()+",`cri_r`="+jTextField_crir.getText()+",`cri_d`="+jTextField_crid.getText()+",`spd`="+jTextField_spd.getText()+",`hpp`="+jTextField_hpp.getText()+",`hps`="+jTextField_hps.getText()+",`defp`="+jTextField_defp.getText()+",`defs`="+jTextField_defs.getText()+",`accp`="+jTextField_accp.getText()+",`resp`="+jTextField_resp.getText()+" WHERE `rune_id` = "+jTextField_id.getText();
        executeSQlQuery(query, "Updated");
     }//GEN-LAST:event_jButton_updateActionPerformed
-
-    private void jComboBox_setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_setActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_setActionPerformed
-
-    private void jTextField_psvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_psvActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_psvActionPerformed
-
-    private void jTextField_defpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_defpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_defpActionPerformed
 //Filling fields when you click on a jtable_runes
     private void jTable_runesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_runesMouseClicked
         int i = jTable_runes.getSelectedRow();
