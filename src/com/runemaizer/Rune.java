@@ -1,4 +1,4 @@
-package swrunes;
+package com.runemaizer;
 
 import java.awt.event.ActionEvent;
 
