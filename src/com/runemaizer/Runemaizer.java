@@ -4,28 +4,24 @@
  * and open the template in the editor.
  */
 package com.runemaizer;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
+
+import java.sql.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
 
 public class Runemaizer extends JFrame {
     
 private static String searchQuery;
     
     public Runemaizer() {
-        // frame and panels adjustment 
+      // frame and panels adjustment 
         super("RUNEMAIZER");
         initComponents();
-        ShowRunesInMainTable();
+        showRunesInMainTable();
         setLocation(300, 200);
         TitledBorder title;
         title = BorderFactory.createTitledBorder("ADD RUNES");
@@ -50,7 +46,7 @@ private static String searchQuery;
         jFrame_search = new javax.swing.JFrame();
         jPanel_search = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable_srunes = new javax.swing.JTable();
+        searchTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -106,9 +102,9 @@ private static String searchQuery;
         jTextField_ssub2 = new javax.swing.JTextField();
         jButton_search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_runes = new javax.swing.JTable();
+        mainTable = new javax.swing.JTable();
 
-        jTable_srunes.setModel(new javax.swing.table.DefaultTableModel(
+        searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -116,7 +112,7 @@ private static String searchQuery;
                 "Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"
             }
         ));
-        jScrollPane4.setViewportView(jTable_srunes);
+        jScrollPane4.setViewportView(searchTable);
 
         javax.swing.GroupLayout jPanel_searchLayout = new javax.swing.GroupLayout(jPanel_search);
         jPanel_search.setLayout(jPanel_searchLayout);
@@ -520,7 +516,7 @@ private static String searchQuery;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable_runes.setModel(new javax.swing.table.DefaultTableModel(
+        mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -528,12 +524,12 @@ private static String searchQuery;
                 "Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv", "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"
             }
         ));
-        jTable_runes.addMouseListener(new java.awt.event.MouseAdapter() {
+        mainTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_runesMouseClicked(evt);
+                mainTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable_runes);
+        jScrollPane1.setViewportView(mainTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -542,9 +538,10 @@ private static String searchQuery;
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -558,24 +555,77 @@ private static String searchQuery;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-// sql request for addition
+  // sql request for addition
     private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
-      String query = "INSERT INTO `runes`(`cet`, `slot`, `ms`, `msv`, `ps`, `psv`, `atkp`, `atks`, `cri_r`, `cri_d`, `spd`, `hpp`, `hps`, `defp`, `defs`, `accp`, `resp`) VALUES ('"+jComboBox_set.getSelectedItem()+"','"+jComboBox_slot.getSelectedItem()+"','"+jComboBox_ms.getSelectedItem()+"',"+jTextField_msv.getText()+",'"+jComboBox_ps.getSelectedItem()+"',"+jTextField_psv.getText()+","+jTextField_atkp.getText()+","+jTextField_atks.getText()+","+jTextField_crir.getText()+","+jTextField_crid.getText()+","+jTextField_spd.getText()+","+jTextField_hpp.getText()+","+jTextField_hps.getText()+","+jTextField_defp.getText()+","+jTextField_defs.getText()+","+jTextField_accp.getText()+","+jTextField_resp.getText()+")";
-      executeSQlQuery(query, "ADDED");
+      String query = "INSERT INTO `runes`("
+              + "`cet`,"
+              + " `slot`,"
+              + " `ms`,"
+              + " `msv`,"
+              + " `ps`,"
+              + " `psv`,"
+              + " `atkp`,"
+              + " `atks`,"
+              + " `cri_r`,"
+              + " `cri_d`,"
+              + " `spd`,"
+              + " `hpp`,"
+              + " `hps`,"
+              + " `defp`,"
+              + " `defs`,"
+              + " `accp`,"
+              + " `resp`)"
+          + " VALUES ("
+              + "'"+jComboBox_set.getSelectedItem()+"',"
+              + "'"+jComboBox_slot.getSelectedItem()+"',"
+              + "'"+jComboBox_ms.getSelectedItem()+"',"
+              + ""+jTextField_msv.getText()+","
+              + "'"+jComboBox_ps.getSelectedItem()+"',"
+              + ""+jTextField_psv.getText()+","
+              + ""+jTextField_atkp.getText()+","
+              + ""+jTextField_atks.getText()+","
+              + ""+jTextField_crir.getText()+","
+              + ""+jTextField_crid.getText()+","
+              + ""+jTextField_spd.getText()+","
+              + ""+jTextField_hpp.getText()+","
+              + ""+jTextField_hps.getText()+","
+              + ""+jTextField_defp.getText()+","
+              + ""+jTextField_defs.getText()+","
+              + ""+jTextField_accp.getText()+","
+              + ""+jTextField_resp.getText()+")";
+      executeSqlQuery(query, "ADDED");
     }//GEN-LAST:event_jButton_addActionPerformed
-// sqlrequest for jButton_delete
+  // sqlrequest for jButton_delete
     private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
         String query = "DELETE FROM `runes` WHERE rune_id = "+jTextField_id.getText();
-         executeSQlQuery(query, "Deleted");
+         executeSqlQuery(query, "Deleted");
     }//GEN-LAST:event_jButton_deleteActionPerformed
-// sql request for update
+  // sql request for update
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
-       String query = "UPDATE `runes` SET `cet`='"+jComboBox_set.getSelectedItem()+"',`slot`='"+jComboBox_slot.getSelectedItem()+"',`ms`='"+jComboBox_ms.getSelectedItem()+"',`msv`="+jTextField_msv.getText()+",`ps`='"+jComboBox_ps.getSelectedItem()+"',`psv`="+jTextField_psv.getText()+",`atkp`="+jTextField_atkp.getText()+",`atks`="+jTextField_atks.getText()+",`cri_r`="+jTextField_crir.getText()+",`cri_d`="+jTextField_crid.getText()+",`spd`="+jTextField_spd.getText()+",`hpp`="+jTextField_hpp.getText()+",`hps`="+jTextField_hps.getText()+",`defp`="+jTextField_defp.getText()+",`defs`="+jTextField_defs.getText()+",`accp`="+jTextField_accp.getText()+",`resp`="+jTextField_resp.getText()+" WHERE `rune_id` = "+jTextField_id.getText();
-       executeSQlQuery(query, "Updated");
+       String query = "UPDATE `runes` SET "
+               + "`cet`='"+jComboBox_set.getSelectedItem()+"',"
+               + "`slot`='"+jComboBox_slot.getSelectedItem()+"',"
+               + "`ms`='"+jComboBox_ms.getSelectedItem()+"',"
+               + "`msv`="+jTextField_msv.getText()+","
+               + "`ps`='"+jComboBox_ps.getSelectedItem()+"',"
+               + "`psv`="+jTextField_psv.getText()+","
+               + "`atkp`="+jTextField_atkp.getText()+","
+               + "`atks`="+jTextField_atks.getText()+","
+               + "`cri_r`="+jTextField_crir.getText()+","
+               + "`cri_d`="+jTextField_crid.getText()+","
+               + "`spd`="+jTextField_spd.getText()+","
+               + "`hpp`="+jTextField_hpp.getText()+","
+               + "`hps`="+jTextField_hps.getText()+","
+               + "`defp`="+jTextField_defp.getText()+","
+               + "`defs`="+jTextField_defs.getText()+","
+               + "`accp`="+jTextField_accp.getText()+","
+               + "`resp`="+jTextField_resp.getText()+""
+               + " WHERE `rune_id` = "+jTextField_id.getText();
+       executeSqlQuery(query, "Updated");
     }//GEN-LAST:event_jButton_updateActionPerformed
 
-// argument "String message" used to display a message in the dialog window
-     public void executeSQlQuery(String query, String message)
+   // argument "String message" used to display a message in the dialog window
+     public void executeSqlQuery(String query, String message)
    {
        com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) getConnectionToSqlDatabse();
        Statement st;
@@ -584,9 +634,9 @@ private static String searchQuery;
            if((st.executeUpdate(query)) == 1)
            {
                // refresh main table data
-               DefaultTableModel model = (DefaultTableModel)jTable_runes.getModel();
+               DefaultTableModel model = (DefaultTableModel)mainTable.getModel();
                model.setRowCount(0);
-               ShowRunesInMainTable();
+               showRunesInMainTable();
                
                JOptionPane.showMessageDialog(null, "Data "+message+" Succefully");
            }else{
@@ -596,7 +646,7 @@ private static String searchQuery;
            ex.printStackTrace();
        }
    }
-// goto coment
+    // goto coment
       public Connection getConnectionToSqlDatabse()
    {
        Connection con;
@@ -611,11 +661,11 @@ private static String searchQuery;
        }
    }
 
-      // Show the received list for jButton_add runes
-     public void ShowRunesInMainTable()
+   // Show the received list for jButton_add runes
+     public void showRunesInMainTable()
    {
        ArrayList<Rune> list = getRunesListFromSqlDatabese();
-       DefaultTableModel model = (DefaultTableModel)jTable_runes.getModel();
+       DefaultTableModel model = (DefaultTableModel)mainTable.getModel();
        Object[] row = new Object[18];
        for(int i = 0; i < list.size(); i++)
        {
@@ -642,7 +692,7 @@ private static String searchQuery;
        }
     }
 
-     // Getting a list of runes from the database sql for jButton_add runes + sql request
+   // Getting a list of runes from the database sql for jButton_add runes + sql request
      public ArrayList<Rune> getRunesListFromSqlDatabese()
    {
        ArrayList<Rune> runesList = new ArrayList<Rune>();
@@ -660,7 +710,25 @@ private static String searchQuery;
 
            while(rs.next())
            {
-               runes = new Rune(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+               runes = new Rune(
+                       rs.getInt("rune_id"),
+                       rs.getString("cet"),
+                       rs.getString("slot"),
+                       rs.getString("ms"),
+                       rs.getInt("msv"),
+                       rs.getString("ps"),
+                       rs.getInt("psv"),
+                       rs.getInt("atkp"),
+                       rs.getInt("atks"),
+                       rs.getInt("cri_r"),
+                       rs.getInt("cri_d"),
+                       rs.getInt("spd"),
+                       rs.getInt("hpp"),
+                       rs.getInt("hps"),
+                       rs.getInt("defp"),
+                       rs.getInt("defs"),
+                       rs.getInt("accp"),
+                       rs.getInt("resp"));
                runesList.add(runes);
            }
 
@@ -672,11 +740,11 @@ private static String searchQuery;
    }
 
      
-//Filling fields when you click on a jtable_runes
-    private void jTable_runesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_runesMouseClicked
-        int i = jTable_runes.getSelectedRow();
+  //Filling fields when you click on a jtable_runes
+    private void mainTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainTableMouseClicked
+        int i = mainTable.getSelectedRow();
 
-        TableModel model = jTable_runes.getModel();
+        TableModel model = mainTable.getModel();
         
          // Display Slected Row In JTexteFields
         jTextField_id.setText(model.getValueAt(i,0).toString());
@@ -697,8 +765,8 @@ private static String searchQuery;
         jTextField_defs.setText(model.getValueAt(i,15).toString());
         jTextField_accp.setText(model.getValueAt(i,16).toString());
         jTextField_resp.setText(model.getValueAt(i,17).toString());
-    }//GEN-LAST:event_jTable_runesMouseClicked
-// sql request for searche
+    }//GEN-LAST:event_mainTableMouseClicked
+  // sql request for searche
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         showWantedRunesInSearchTable();
         jFrame_search.setTitle("SEARCHING RESULT");
@@ -708,14 +776,32 @@ private static String searchQuery;
         jFrame_search.setVisible(true);
     }//GEN-LAST:event_jButton_searchActionPerformed
   
-    // Show the received list for jButton_search runes
+  // Show the received list for jButton_search runes
      public void showWantedRunesInSearchTable()
    {
        ArrayList<Rune> list = getWantedRunesList();
-       DefaultTableModel model = (DefaultTableModel)jTable_srunes.getModel();
+       DefaultTableModel model = (DefaultTableModel)searchTable.getModel();
        model.setRowCount(0);
-       model.setColumnIdentifiers(new Object[]{"Id", "Set", "Slot", "Ms", "Msv", "Ps", "Psv",
-           "Atkp", "Atks", "CriR", "CriD", "Spd", "Hpp", "Hps", "Defp", "Defs", "Accp", "Resp"});
+       model.setColumnIdentifiers(new Object[]{
+           "Id",
+           "Set",
+           "Slot",
+           "Ms",
+           "Msv",
+           "Ps",
+           "Psv",
+           "Atkp",
+           "Atks",
+           "CriR",
+           "CriD",
+           "Spd",
+           "Hpp",
+           "Hps",
+           "Defp",
+           "Defs",
+           "Accp",
+           "Resp"});
+       
        Object[] row = new Object[18];
        for(int i = 0; i < list.size(); i++)
        {
@@ -739,10 +825,10 @@ private static String searchQuery;
            row[17] = list.get(i).getResistance();
            model.addRow(row);
        }
-       jTable_srunes.setModel(model);
+       searchTable.setModel(model);
     }
      
- // Getting a list of runes from the database sql for jButton_search runes
+    // Getting a list of runes from the database sql for jButton_search runes
       public ArrayList<Rune> getWantedRunesList()
     {
         ArrayList<Rune> runesList = new ArrayList<Rune>();
@@ -754,18 +840,37 @@ private static String searchQuery;
             Connection con = getConnectionToSqlDatabse();
             st = con.createStatement();
         // create diferent sql request based on the request fields
-            if ((jComboBox_sset.getSelectedIndex() == 0) && (jComboBox_sslot.getSelectedIndex() != 0))
-            {
-            searchQuery = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (slot = '"+jComboBox_sslot.getSelectedItem()+"')";
+            if ((jComboBox_sset.getSelectedIndex() == 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {
+            searchQuery = "SELECT * FROM runes WHERE ("
+                    + ""+jComboBox_ssub1.getSelectedItem()+""
+                    + " "+jComboBox_br1.getSelectedItem()+""
+                    + " "+jTextField_ssub1.getText()+")"
+                    + " and "
+                    + "(slot = '"+jComboBox_sslot.getSelectedItem()+"')";
             }
-            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() == 0) ) {
-            searchQuery = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (cet = '"+jComboBox_sset.getSelectedItem()+"')";
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() == 0)) {
+            searchQuery = "SELECT * FROM runes WHERE ("
+                    + ""+jComboBox_ssub1.getSelectedItem()+""
+                    + " "+jComboBox_br1.getSelectedItem()+""
+                    + " "+jTextField_ssub1.getText()+")"
+                    + " and "
+                    + "(cet = '"+jComboBox_sset.getSelectedItem()+"')";
             }
-            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() != 0) ) {
-            searchQuery = "SELECT * FROM runes WHERE ("+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+") and (cet = '"+jComboBox_sset.getSelectedItem()+"') and (slot = '"+jComboBox_sslot.getSelectedItem()+"') ";
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {
+            searchQuery = "SELECT * FROM runes WHERE ("
+                    + ""+jComboBox_ssub1.getSelectedItem()+""
+                    + " "+jComboBox_br1.getSelectedItem()+""
+                    + " "+jTextField_ssub1.getText()+")"
+                    + " and"
+                    + " (cet = '"+jComboBox_sset.getSelectedItem()+"')"
+                    + " and"
+                    + " (slot = '"+jComboBox_sslot.getSelectedItem()+"') ";
             }
             else {
-            searchQuery = "SELECT * FROM runes WHERE "+jComboBox_ssub1.getSelectedItem()+" "+jComboBox_br1.getSelectedItem()+" "+jTextField_ssub1.getText()+"";
+            searchQuery = "SELECT * FROM runes WHERE "
+                    + ""+jComboBox_ssub1.getSelectedItem()+""
+                    + " "+jComboBox_br1.getSelectedItem()+" "
+                    + ""+jTextField_ssub1.getText()+"";
             }
                         
             String searchQuery = Runemaizer.searchQuery;
@@ -774,7 +879,25 @@ private static String searchQuery;
             
             while(rs.next())
             {
-                runes = new Rune(rs.getInt("rune_id"),rs.getString("cet"),rs.getString("slot"),rs.getString("ms"),rs.getInt("msv"),rs.getString("ps"),rs.getInt("psv"),rs.getInt("atkp"),rs.getInt("atks"),rs.getInt("cri_r"),rs.getInt("cri_d"),rs.getInt("spd"),rs.getInt("hpp"),rs.getInt("hps"),rs.getInt("defp"),rs.getInt("defs"),rs.getInt("accp"),rs.getInt("resp"));
+                runes = new Rune(
+                        rs.getInt("rune_id"),
+                        rs.getString("cet"),
+                        rs.getString("slot"),
+                        rs.getString("ms"),
+                        rs.getInt("msv"),
+                        rs.getString("ps"),
+                        rs.getInt("psv"),
+                        rs.getInt("atkp"),
+                        rs.getInt("atks"),
+                        rs.getInt("cri_r"),
+                        rs.getInt("cri_d"),
+                        rs.getInt("spd"),
+                        rs.getInt("hpp"),
+                        rs.getInt("hps"),
+                        rs.getInt("defp"),
+                        rs.getInt("defs"),
+                        rs.getInt("accp"),
+                        rs.getInt("resp"));
                 runesList.add(runes);
             }
             
@@ -866,8 +989,6 @@ private static String searchQuery;
     private javax.swing.JPanel jPanel_search;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable_runes;
-    private javax.swing.JTable jTable_srunes;
     private javax.swing.JTextField jTextField_accp;
     private javax.swing.JTextField jTextField_atkp;
     private javax.swing.JTextField jTextField_atks;
@@ -884,5 +1005,7 @@ private static String searchQuery;
     private javax.swing.JTextField jTextField_spd;
     private javax.swing.JTextField jTextField_ssub1;
     private javax.swing.JTextField jTextField_ssub2;
+    private javax.swing.JTable mainTable;
+    private javax.swing.JTable searchTable;
     // End of variables declaration//GEN-END:variables
 }
