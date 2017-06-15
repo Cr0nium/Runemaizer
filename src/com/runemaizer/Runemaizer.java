@@ -14,19 +14,21 @@ import javax.swing.border.TitledBorder;
 
 
 public class Runemaizer extends JFrame {
-    
-private static String searchQuery;
+// We use a static variable to extend the visibility zone   
+  private static String searchQuery;
     
     public Runemaizer() {
-      // frame and panels adjustment 
+      // frame, panels and border adjustment 
         super("RUNEMAIZER");
         initComponents();
         showRunesInMainTable();
         setLocation(300, 200);
+        
         TitledBorder title;
         title = BorderFactory.createTitledBorder("ADD RUNES");
         title.setTitleJustification(TitledBorder.CENTER);
         jPanel1.setBorder(title);
+        
         TitledBorder titles;
         titles = BorderFactory.createTitledBorder("SEARCH RUNES");
         titles.setTitleJustification(TitledBorder.CENTER);
@@ -555,10 +557,33 @@ private static String searchQuery;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-  // sql request for addition
+  /** Here and below, we will use the following mapping of the variables of the rune instance and the MySql table elements
+   * From 7 to 17 variables are considered - sub stats !!! it is important !!!
+   * 
+   * cet  -  set
+   * slot -  slot
+   * ms   -  mainStat
+   * msv  -  mainStatValue 
+   * ps   -  prefixStat
+   * psv  -  prefixStatValue
+   * atkp -  attackInPercentages
+   * atks -  attackInNumbers
+   * cri_r - criticalRate
+   * cri_d - criticalDamage
+   * spd  -  speed
+   * hpp  -  hitPointsInPercentages
+   * hps  -  hitPointsInNambers
+   * defp -  defenseInPercentages
+   * defs -  defenseInNumbers
+   * accp -  accuracy
+   * resp -  resistance
+   * 
+   */
+    
+  // generation sql request for add  
     private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
       String query = "INSERT INTO `runes`("
-              + "`cet`,"
+              + "`cet`," // It's not a mistake - there's no way to set a 'set' because use of the language sql ('cet'=='set') 
               + " `slot`,"
               + " `ms`,"
               + " `msv`,"
@@ -594,13 +619,26 @@ private static String searchQuery;
               + ""+jTextField_accp.getText()+","
               + ""+jTextField_resp.getText()+")";
       executeSqlQuery(query, "ADDED");
+    // Zero values of fields containing sub stat 
+       jTextField_atkp.setText("0");
+       jTextField_atks.setText("0");
+       jTextField_crir.setText("0");
+       jTextField_crid.setText("0");
+       jTextField_spd.setText("0");
+       jTextField_hpp.setText("0");
+       jTextField_hps.setText("0");
+       jTextField_defp.setText("0");
+       jTextField_defs.setText("0");
+       jTextField_accp.setText("0");
+       jTextField_resp.setText("0");
+      
     }//GEN-LAST:event_jButton_addActionPerformed
-  // sqlrequest for jButton_delete
+  // generation sql request for delete
     private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
         String query = "DELETE FROM `runes` WHERE rune_id = "+jTextField_id.getText();
          executeSqlQuery(query, "Deleted");
     }//GEN-LAST:event_jButton_deleteActionPerformed
-  // sql request for update
+  //  generation sql request for update
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
        String query = "UPDATE `runes` SET "
                + "`cet`='"+jComboBox_set.getSelectedItem()+"',"
@@ -646,7 +684,8 @@ private static String searchQuery;
            ex.printStackTrace();
        }
    }
-    // goto coment
+    // At the moment the connection is with the local database
+    // in the future there will be a change to the connection to the remote server
       public Connection getConnectionToSqlDatabse()
    {
        Connection con;
@@ -661,7 +700,7 @@ private static String searchQuery;
        }
    }
 
-   // Show the received list for jButton_add runes
+   // Output to the table list obtained through getRunesListFromSqlDatabese()
      public void showRunesInMainTable()
    {
        ArrayList<Rune> list = getRunesListFromSqlDatabese();
@@ -692,8 +731,7 @@ private static String searchQuery;
        }
     }
 
-   // Getting a list of runes from the database sql for jButton_add runes + sql request
-     public ArrayList<Rune> getRunesListFromSqlDatabese()
+        public ArrayList<Rune> getRunesListFromSqlDatabese()
    {
        ArrayList<Rune> runesList = new ArrayList<Rune>();
        com.mysql.jdbc.Connection connection = (com.mysql.jdbc.Connection) getConnectionToSqlDatabse();
@@ -740,7 +778,7 @@ private static String searchQuery;
    }
 
      
-  //Filling fields when you click on a jtable_runes
+  //Filling fields when you click on mainTable
     private void mainTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainTableMouseClicked
         int i = mainTable.getSelectedRow();
 
@@ -766,7 +804,7 @@ private static String searchQuery;
         jTextField_accp.setText(model.getValueAt(i,16).toString());
         jTextField_resp.setText(model.getValueAt(i,17).toString());
     }//GEN-LAST:event_mainTableMouseClicked
-  // sql request for searche
+  // generation sql request for searche
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         showWantedRunesInSearchTable();
         jFrame_search.setTitle("SEARCHING RESULT");
@@ -776,8 +814,7 @@ private static String searchQuery;
         jFrame_search.setVisible(true);
     }//GEN-LAST:event_jButton_searchActionPerformed
   
-  // Show the received list for jButton_search runes
-     public void showWantedRunesInSearchTable()
+    public void showWantedRunesInSearchTable()
    {
        ArrayList<Rune> list = getWantedRunesList();
        DefaultTableModel model = (DefaultTableModel)searchTable.getModel();
@@ -828,7 +865,7 @@ private static String searchQuery;
        searchTable.setModel(model);
     }
      
-    // Getting a list of runes from the database sql for jButton_search runes
+    // Getting a list of runes from the database sql 
       public ArrayList<Rune> getWantedRunesList()
     {
         ArrayList<Rune> runesList = new ArrayList<Rune>();
@@ -840,7 +877,7 @@ private static String searchQuery;
             Connection con = getConnectionToSqlDatabse();
             st = con.createStatement();
         // create diferent sql request based on the request fields
-            if ((jComboBox_sset.getSelectedIndex() == 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {
+            if ((jComboBox_sset.getSelectedIndex() == 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {       // (set - any) (slot - selected) (sub stat - selected) 
             searchQuery = "SELECT * FROM runes WHERE ("
                     + ""+jComboBox_ssub1.getSelectedItem()+""
                     + " "+jComboBox_br1.getSelectedItem()+""
@@ -848,7 +885,7 @@ private static String searchQuery;
                     + " and "
                     + "(slot = '"+jComboBox_sslot.getSelectedItem()+"')";
             }
-            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() == 0)) {
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() == 0)) {  // (set - selected) (slot - any) (sub stat - selected) 
             searchQuery = "SELECT * FROM runes WHERE ("
                     + ""+jComboBox_ssub1.getSelectedItem()+""
                     + " "+jComboBox_br1.getSelectedItem()+""
@@ -856,7 +893,7 @@ private static String searchQuery;
                     + " and "
                     + "(cet = '"+jComboBox_sset.getSelectedItem()+"')";
             }
-            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {
+            else if ((jComboBox_sset.getSelectedIndex() != 0) && (jComboBox_sslot.getSelectedIndex() != 0)) {  // (set - selectde) (slot - selected) (sub stat - selected) 
             searchQuery = "SELECT * FROM runes WHERE ("
                     + ""+jComboBox_ssub1.getSelectedItem()+""
                     + " "+jComboBox_br1.getSelectedItem()+""
@@ -867,7 +904,7 @@ private static String searchQuery;
                     + " (slot = '"+jComboBox_sslot.getSelectedItem()+"') ";
             }
             else {
-            searchQuery = "SELECT * FROM runes WHERE "
+            searchQuery = "SELECT * FROM runes WHERE "                                                         // (set - any) (slot - any) (sub stat - selected)  
                     + ""+jComboBox_ssub1.getSelectedItem()+""
                     + " "+jComboBox_br1.getSelectedItem()+" "
                     + ""+jTextField_ssub1.getText()+"";
