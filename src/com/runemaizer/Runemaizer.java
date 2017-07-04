@@ -557,7 +557,8 @@ public class Runemaizer extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-  /** Here and below, we will use the following mapping of the variables of the rune instance and the MySql table elements
+  
+    /** Here and below, we will use the following mapping of the variables of the rune instance and the MySql table elements
    * From 7 to 17 variables are considered - sub stats !!! it is important !!!
    * 
    * cet  -  set
@@ -566,6 +567,7 @@ public class Runemaizer extends JFrame {
    * msv  -  mainStatValue 
    * ps   -  prefixStat
    * psv  -  prefixStatValue
+   * -------------------------------
    * atkp -  attackInPercentages
    * atks -  attackInNumbers
    * cri_r - criticalRate
@@ -577,7 +579,7 @@ public class Runemaizer extends JFrame {
    * defs -  defenseInNumbers
    * accp -  accuracy
    * resp -  resistance
-   * 
+   * -------------------------------
    */
     
   // generation sql request for add  
@@ -807,6 +809,7 @@ public class Runemaizer extends JFrame {
   // generation sql request for searche
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         showWantedRunesInSearchTable();
+      // Customize the window search   
         jFrame_search.setTitle("SEARCHING RESULT");
         jFrame_search.setDefaultCloseOperation(jFrame_search.DISPOSE_ON_CLOSE);
         jFrame_search.setLocation(800, 450);
